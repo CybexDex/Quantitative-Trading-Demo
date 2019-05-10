@@ -2,15 +2,16 @@
   "name": "quant-course",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "BinanceOrdersMover.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node BinanceOrdersMover.js"
+    "start": "node BinanceOrdersMover.js",
+    "mm": "node SimpleMarketMaker.js"
   },
   "author": "shanti@cybex.io",
   "license": "ISC",
   "dependencies": {
-    "romejs": "^1.0.0",
+    "romejs": "^1.0.2",
     "websocket": "^1.0.28"
   }
 }

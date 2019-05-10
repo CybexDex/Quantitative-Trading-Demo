@@ -7,7 +7,7 @@ const cybex = new Cybex();
 const assetPair = "ETH/USDT";
 
 let allOrders = [];
-const spread = 0.005;
+const spread = 0.0015;
 
 function handleMarketDataTick(price) {
     const bidPx = price * (1 - spread);
@@ -18,14 +18,16 @@ function handleMarketDataTick(price) {
             console.log('Order Canceled   : ' + order);
         });
     })
-    place(assetPair, "buy", bidPx, 0.01);
-    place(assetPair, "sell", askPx, 0.01);
+    //place(assetPair, "buy", bidPx, 0.01);
+    console.log("buy", bidPx.toFixed(2));
+    //place(assetPair, "sell", askPx, 0.01);
+    console.log("sell", askPx.toFixed(2));
 }
 
 function place(pair, side, px, qty) {
     // async createOrder(assetPair, side, amount, price) {
     cybex.createOrder(pair, side, qty, px).then(res => {
-        if (res.Status === "Successful") {
+        if (res && res.Status === "Successful") {
             console.log('Sending new order: ' + side + ' ' + pair + ' ' + qty + '@' + px + ' - txId: ' + res.transactionId);
             allOrders.push(res.transactionId)
         }
@@ -45,17 +47,22 @@ function convert_pair(pair){
 
 // WebSocket client to connect to Binance API for OrderBook
 wsClient.on('connect', function (connection) {
-
+    console.log("connected");
     let last_price = 1;
+    const cmd  = JSON.stringify({"type": "subscribe", "topic": "LASTPRICE."+convert_pair(assetPair)});
 
-    wsClient.send({"type": "subscribe", "topic": "LASTPRICE."+convert_pair(assetPair)});
+    connection.send(cmd);
 
     connection.on('message', function (message) {
+
         if (message.type === 'utf8') {
             const data = JSON.parse(message.utf8Data);
+
             if (data.px !== last_price) {
                 last_price = data.px;
                 handleMarketDataTick(last_price);
+            }else{
+                console.log("same price at" + data.px);
             }
         }
     });
@@ -67,11 +74,14 @@ wsClient.on('connect', function (connection) {
 
 (async () => {
 
+
     const config = {accountName: "accountName", password: "password"};
 
     const r = await cybex.setSigner(config);
 
     wsClient.connect('wss://mdp.cybex.io');
+
+
 
 })();
 
