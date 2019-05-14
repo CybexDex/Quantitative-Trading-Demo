@@ -18,10 +18,10 @@ function handleMarketDataTick(price) {
             console.log('Order Canceled   : ' + order);
         });
     })
-    //place(assetPair, "buy", bidPx, 0.01);
-    console.log("buy", bidPx.toFixed(2));
-    //place(assetPair, "sell", askPx, 0.01);
-    console.log("sell", askPx.toFixed(2));
+    place(assetPair, "buy", bidPx.toFixed(3), 0.01);
+    //console.log("buy", bidPx.toFixed(2));
+    place(assetPair, "sell", askPx.toFixed(3), 0.01);
+    //console.log("sell", askPx.toFixed(2));
 }
 
 function place(pair, side, px, qty) {
