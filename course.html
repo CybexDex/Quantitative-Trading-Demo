@@ -73,23 +73,25 @@
                 </div>
 
                 <p>
-                    在去中心化交易所，所有的挂单与撮合最后都是记录在公链上，公开透明无法修改。因此，和中心化交易所API不同之一，就是所有的endpoint都是公开（public）的，包括查询个人账户的挂单记录，以及执行交易指令等。
+                    在去中心化交易所，所有的挂单与撮合最后都是记录在公链上，公开透明无法修改。因此，和中心化交易所API明显的不同之一，就是所有的endpoint都是公开（public）的，包括查询个人账户的挂单记录，以及执行交易指令等。
                     当我们想要执行交易指令，比如挂单，撤单，用私钥对标准化的指令进行签名后发给API服务器便可。
                 </p>
                 <p>
-
+                    对于签名，赛贝有可以独立运行的高效的签名程序，cyb-signer，将交易指令发送给它后便可发送给API服务器。独立的签名程序可以分化交易和签名的逻辑。
+                    如果感到独立运行签名程序有一些不便，也可以选择内置签名功能的python或js的库，简化开发流程。鉴于api库的囊括了各种常用的功能，直观明了，这里统一使用其中的JavaScript库romejs来进行解释说明。
                 </p>
+
             </div>
 
             <div>
                 <div class="title">
-                    <span>策略编写开发也可以轻松上手？</span>
-                    <h3>找到实用工具箱事半功倍</h3>
+                    <span>接入新交易所学习成本耗时巨大？</span>
+                    <h3>实用工具让策略开发事半功倍</h3>
                 </div>
 
                 <p>
                     现在，脚本语言因为简单友好，清晰易读，并且有很成熟的生态系统和社区支援，成了众多量化交易者的首选，尤其python和javascript的受欢迎程度一直非常高，积累了很多开发工具和经验。由于数字货币交易所的功能大体上比较接近，
-                    API也慢慢形成了一些通用的标准，比如查询账户余额，订单历史，市场数据等，使得用户连接成本变得更低——甚至只要修改几个配置参数，就可以将自己的策略移植到新的交易所了。
+                    API也慢慢形成了一些通用的标准，比如查询账户余额，订单历史，市场数据等，使得用户连接成本变得更低——甚至只要修改几个配置参数，就可以将自己的策略移植到新的交易所了。因此，完全不用担心接入新的交易所会费时费力。
                 </p>
                 <p>
                     首先介绍的一个通用的交易所连接工具，ccxt,目前支持上百所交易所的连接，可以在它的github看到一个完整的列表。
@@ -105,22 +107,6 @@
                     值得注意的是，ccxt连接的基本上都是中心化交易所，去中心化交易所的系统，因为签名等一些其他原因，相比之下显得更复杂一些，所需要的依赖也会更多。赛贝的ROME
                     API便提供了类似ccxt使用方式的独立的库，目前支持python和JavaScript，同样可以通过pip和npm来安装。
                 </p>
-
-                <pre><code class="language-js">
-    const Cybex = require('romeapi');
-    (async () => {
-        const cybex = new Cybex({accountName:"accountName", "password":"password"});
-        const assetPair = "ETH/USDT";
-
-        // to place an market order
-        const response= cybex.createMarketBuyOrder(assetPair, 0.01);
-        console.log(response);
-
-        // cancel order with transaction id
-        const _cancel = await cybex.cancelOrder(response.transactionId);
-        console.log(_cancel);
-    })();
-                </code></pre>
 
                 <p>这里整理了常用的romeapi以及ccxt的用法对比。</p>
 
@@ -212,7 +198,8 @@
                 是不是非常简单直观？
             </p>
             <p>
-                为了程序完整的运行，还需要加上import初始化，还有获取行情数据和订单取消的机制。除了romejs库（如果用python则是romeapi），由于发送HTTP请求去获取行情数据效率比较低，我们选用websocket client来接收交易所的行情数据，以更快掌握市场动态。因此首先，用require引入。
+                为了程序完整的运行，还需要加上import初始化，还有获取行情数据和订单取消的机制。除了romejs库（如果用python则是romeapi），由于发送HTTP请求去获取行情数据效率比较低，我们选用websocket
+                client来接收交易所的行情数据，以更快掌握市场动态。因此首先，用require引入。
             </p>
 
             <pre>
@@ -261,7 +248,7 @@
         });
     });
             </code></pre>
-            
+
             <p>当发送新的挂单的时候会想要把之前的挂单撤掉，因此，下单成功的时候，我们需要记录transactionId，在重新下单的时候取消。</p>
 
             <pre>
@@ -289,7 +276,7 @@
     }
                 </code>
             </pre>
-            
+
 
             <p>
                 这样，一个最简单的做市商程序就完成了！
