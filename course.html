@@ -110,7 +110,6 @@
     const Cybex = require('romeapi');
     (async () => {
         const cybex = new Cybex({accountName:"accountName", "password":"password"});
-
         const assetPair = "ETH/USDT";
 
         // to place an market order
@@ -118,13 +117,12 @@
         console.log(response);
 
         // cancel order with transaction id
-        if(response.transactionId){
-          const _cancel = await cybex.cancelOrder(response.transactionId);
-          console.log(_cancel);
-        }
-
+        const _cancel = await cybex.cancelOrder(response.transactionId);
+        console.log(_cancel);
     })();
                 </code></pre>
+
+                <p>这里整理了常用的romeapi以及ccxt的用法对比。</p>
 
                 <table class="table ">
                     <thead>
@@ -211,7 +209,10 @@
     }
             </code></pre>
             <p>
-                为了完整的运行，还需要加上获取行情数据和订单取消的机制。首先，我们会需要用到romejs库，如果用python则是romeapi。另外，发送HTTP请求去获取行情数据效率比较低，因此我们用websocket client来接收交易所的行情数据，以更快掌握市场动态。因此首先，用require引入。
+                是不是非常简单直观？
+            </p>
+            <p>
+                为了程序完整的运行，还需要加上import初始化，还有获取行情数据和订单取消的机制。除了romejs库（如果用python则是romeapi），由于发送HTTP请求去获取行情数据效率比较低，我们选用websocket client来接收交易所的行情数据，以更快掌握市场动态。因此首先，用require引入。
             </p>
 
             <pre>
@@ -265,6 +266,8 @@
 
             <pre>
                 <code class="language-js">
+    let allOrders=[];
+
     function cancelOrder(){
         allOrders.forEach(order => {
             cybex.cancelOrder(order).then(response => {
