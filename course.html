@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://bootswatch.com/4/slate/bootstrap.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/themes/prism-okaidia.min.css">
+    <title></title>
+    <style>
+        .title {
+            margin-top: 30px;
+            border-left: 5px solid #ff7306;
+            margin-bottom: 10px;
+            padding-left: 15px;
+        }
+
+        .title span {
+            color: #e6e6e6;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div style="margin-top:200px;"></div>
+    <div class="row align-items-center justify-content-md-center">
+        <div class="col-md-10">
+            <h2 class="text-center">赛贝量化小课堂</h2>
+            <hr/>
+            <br/>
+
+            <p>
+                大家好，欢迎来到赛贝量化小课堂，走进数字货币程序化交易的世界。
+            </p>
+
+            <div>
+                <div class="title">
+                    <span>去中心化交易所高频交易难以实现？</span>
+                    <h3>即时撮合引擎助力毫秒级高频交易</h3>
+                </div>
+
+                <p>
+                    这里想探讨的第一个问题就是，在去中心化交易所进行高频交易比如做市真的很困难吗？
+                    以往人们对于去中心化的印象是公开透明，无法进行暗箱操作，但是与中心化的交易所相比，所有挂单需要等待至少一个区块的时间（不同的链产生的区块的速度有差异，约在0.5至3秒）来上链确认才能撮合，
+                    而现今数字货币市场的波动很大，瞬息万变。一旦在市场信息和挂单效率上不能取得优势，很多高频交易，比如做市或者套利策略，就变得困难重重，非常容易亏损。
+                </p>
+                <p>相对而言，在中心化交易所，所有数据都是集中的，市场信息和交易执行效率很高，可以即时反馈（包括网络延迟通常100毫秒以内），进行程序化交易有着很大的优势。
+                    为了保留去中心化交易所的优势，并同时提升交易系统的撮合效率，赛贝交易所创新得引入了即时撮合引擎（ROME），并采用了一系列前沿技术如顶级银行使用的数据通讯CQ，以及高速金融数据库KDB来整合全网数据，来提升效能。
+                    所有的交易所的挂单会被路由至ROME进行撮合并获得即时的反馈，最终的结果就是，用户可以获得和中心化交易所一致的高效，稳定，可靠的交易体验。
+
+                </p>
+                <p>
+                    因为ROME的独特性，除了原本的链上API，开发团队为它开发独立的API。相比通过非见证人节点（full node）接入的链上API，ROME
+                    API更简明，和其他中心化API在用法，反馈和效率上都十分接近，十分合适用来做一些比较高频的交易，比如做市策略。
+                    同时，简明的设计可以节省时间成本，尤其有其他交易所的程序化交易经验，使用起来则更为简单。
+
+                </p>
+
+                <p>ROME API的文档可以在 <a href="https://apidoc.cybex.io" target="_blank">https://apidoc.cybex.io</a> 查阅。</p>
+
+            </div>
+
+            <div>
+                <div class="title">
+                    <span>去中心化交易的核心是透明？</span>
+                    <h3>所有API endpoint公开，执行交易凭签名</h3>
+                </div>
+
+                <p>
+                    在去中心化交易所，所有的挂单与撮合最后都是记录在公链上，公开透明无法修改。因此，和中心化交易所API不同之一，就是所有的endpoint都是公开（public）的，包括查询个人账户的挂单记录，以及执行交易指令等。
+                    当我们想要执行交易指令，比如挂单，撤单，用私钥对标准化的指令进行签名后发给API服务器便可。
+                </p>
+                <p>
+
+                </p>
+            </div>
+
+            <div>
+                <div class="title">
+                    <span>策略编写开发也可以轻松上手？</span>
+                    <h3>找到实用工具箱事半功倍</h3>
+                </div>
+
+                <p>
+                    现在，脚本语言因为简单友好，清晰易读，并且有很成熟的生态系统和社区支援，成了众多量化交易者的首选，尤其python和javascript的受欢迎程度一直非常高，积累了很多开发工具和经验。由于数字货币交易所的功能大体上比较接近，
+                    API也慢慢形成了一些通用的标准，比如查询账户余额，订单历史，市场数据等，使得用户连接成本变得更低——甚至只要修改几个配置参数，就可以将自己的策略移植到新的交易所了。
+                </p>
+                <p>
+                    首先介绍的一个通用的交易所连接工具，ccxt,目前支持上百所交易所的连接，可以在它的github看到一个完整的列表。
+                    ccxt的出现，进一步将用户使用的功能进行标准化，为各种常见的操作定义了统一的函数名，可以参照一下它的使用范例，非常直观，明了，易用，让用户无论在策略开发和移植的时候都有很大的便利，
+                    确实可以做到几乎是真正无痛接入一个新的交易所。
+                </p>
+
+                <p class="text-center">
+                    <img src="images/ccxt.jpg" width="80%"/>
+                </p>
+
+                <p>
+                    值得注意的是，ccxt连接的基本上都是中心化交易所，去中心化交易所的系统，因为签名等一些其他原因，相比之下显得更复杂一些，所需要的依赖也会更多。赛贝的ROME
+                    API便提供了类似ccxt使用方式的独立的库，目前支持python和JavaScript，同样可以通过pip和npm来安装。
+                </p>
+
+                <pre><code class="language-js">
+    const Cybex = require('romeapi');
+    (async () => {
+        const cybex = new Cybex({accountName:"accountName", "password":"password"});
+
+        const assetPair = "ETH/USDT";
+
+        // to place an market order
+        const response= cybex.createMarketBuyOrder(assetPair, 0.01);
+        console.log(response);
+
+        // cancel order with transaction id
+        if(response.transactionId){
+          const _cancel = await cybex.cancelOrder(response.transactionId);
+          console.log(_cancel);
+        }
+
+    })();
+                </code></pre>
+
+                <table class="table ">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>CCXT JS</th>
+                        <th>ROMEAPI JS</th>
+                        <th>CCXT PYTHON</th>
+                        <th>ROMEAPI PYTHON</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>安装</td>
+                        <td>npm i ccxt</td>
+                        <td>npm i romeapi</td>
+                        <td>pip install ccxt</td>
+                        <td>pip install romeapi</td>
+                    </tr>
+                    <tr>
+                        <td>引入</td>
+                        <td>const ccxt = require('ccxt');</td>
+                        <td>const Cybex = require('romeapi');</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>初始化</td>
+                        <td>let kraken = new ccxt.kraken ()</td>
+                        <td>let cybex = new Cybex()</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>账户</td>
+                        <td>kraken.fetchBalance()</td>
+                        <td>cybex.fetchBalance()</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>市价单</td>
+                        <td>kraken.createMarketSellOrder()</td>
+                        <td>cybex.createMarketSellOrder()</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>限价单</td>
+                        <td>kraken.createLimitBuyOrder()</td>
+                        <td>cybex.createLimitBuyOrder()</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+
+            <div class="title">
+                <span>怎样开始上手实践一个高频策略？</span>
+                <h3>从0开始的无对冲单交易所做市策略</h3>
+            </div>
+
+            <p>
+                高频的交易策略通常可以分为做市策略和套利策略。其中做市策略是市场中的主要策略。 自动做市商高频交易者通过向市场提供买卖订单来提高流动性。
+                自动做市商高频交易者的高速计算机系统具有通过发出超级快速订单来发现其他投资者投资意向的能力。
+                例如，在以极快速度发出一个买单或卖单后，如果没有被迅速成交，该订单将被马上取消；然而如果成交，系统即捕捉到大量潜在、隐藏订单存在的信息。
+
+            <p class="text-center">
+                <img src="images/market.jpg" width="80%"/>
+            </p>
+
+            <p>
+                这里我们试着来写一个最基本的做市策略——按照<b>最后成交价</b>加减一个<b>固定的比率</b>，发送一个非常小单位的买卖的限价单到交易所。
+            </p>
+            <pre><code class="language-js">
+    function handleMarketDataTick(last_price) {
+
+        cybex.createLimitBuyOrder(assetPair, 0.01, last_price * (1 - spread));
+        cybex.createLimitSellOrder(assetPair, 0.01, last_price * (1 + spread));
+
+    }
+            </code></pre>
+            <p>
+                为了完整的运行，还需要加上获取行情数据和订单取消的机制。首先，我们会需要用到romejs库，如果用python则是romeapi。另外，发送HTTP请求去获取行情数据效率比较低，因此我们用websocket client来接收交易所的行情数据，以更快掌握市场动态。因此首先，用require引入。
+            </p>
+
+            <pre>
+                <code class="language-js">
+    const WebSocketClient = require('websocket').client;
+    const Cybex = require('romejs');
+
+    var wsClient = new WebSocketClient();
+    const cybex = new Cybex();
+    cybex.setSigner({accountName:"accountName", "password":"password"});
+                </code></pre>
+
+            <p>
+                假设我们选择ETH/USDT作为交易对，并且已经预设好了spread为+-5bps。
+            </p>
+
+            <pre><code class="language-js">
+    const assetPair = "ETH/USDT";
+    const spread = 0.0005;
+                </code></pre>
+
+            <p>
+                当websocket client建立连接后，需要发送subscribe的命令来接收推送信息，然后对每次发来的推送进行处理
+            </p>
+
+            <pre><code class="language-js">
+
+    wsClient.on('connect', connection => {
+
+        const cmd  = JSON.stringify({"type": "subscribe", "topic": "LASTPRICE." + assetPair});
+        connection.send(cmd);
+
+        let last_price = 1;
+        connection.on('message', message=> {
+
+            if (message.type === 'utf8') {
+                const data = JSON.parse(message.utf8Data);
+
+                if (data.px !== last_price) {
+                    last_price = data.px;
+                    handleMarketDataTick(last_price);
+                }else{
+                    console.log("same price at" + data.px);
+                }
+            }
+        });
+    });
+            </code></pre>
+            
+            <p>当发送新的挂单的时候会想要把之前的挂单撤掉，因此，下单成功的时候，我们需要记录transactionId，在重新下单的时候取消。</p>
+
+            <pre>
+                <code class="language-js">
+    function cancelOrder(){
+        allOrders.forEach(order => {
+            cybex.cancelOrder(order).then(response => {
+                console.log('Order Canceled   : ' + order);
+            });
+        })
+    }
+                    
+    function addOrder(response){
+        if (response && response.Status === "Successful") {
+            console.log('Sending new order: ' + side + ' ' + pair + ' ' + qty + '@' + px + ' - txId: ' + response.transactionId);
+            allOrders.push(response.transactionId)
+        }
+    }
+
+    function handleMarketDataTick(last_price) {
+        cybex.createLimitBuyOrder(assetPair, 0.01, last_price * (1 - spread)).then(response=>addOrder(response));
+        cybex.createLimitSellOrder(assetPair, 0.01, last_price * (1 + spread)).then(response=>addOrder(response));
+    }
+                </code>
+            </pre>
+            
+
+            <p>
+                这样，一个最简单的做市商程序就完成了！
+            </p>
+
+            <div class="alert alert-dismissible alert-info">
+                注意！请保证账户有充足的余额来进行实践。
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>-->
+<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js"></script>
+</body>
+</html>

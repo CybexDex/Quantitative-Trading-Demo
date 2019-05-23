@@ -7,7 +7,7 @@ const cybex = new Cybex();
 const assetPair = "ETH/USDT";
 
 let allOrders = [];
-const spread = 0.0015;
+const spread = 0.0005;
 
 function handleMarketDataTick(price) {
     const bidPx = price * (1 - spread);
@@ -74,14 +74,11 @@ wsClient.on('connect', function (connection) {
 
 (async () => {
 
-
     const config = {accountName: "accountName", password: "password"};
 
     const r = await cybex.setSigner(config);
 
     wsClient.connect('wss://mdp.cybex.io');
-
-
 
 })();
 
