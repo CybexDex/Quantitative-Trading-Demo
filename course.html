@@ -23,7 +23,6 @@
             color: #e6e6e6;
         }
 
-
     </style>
 </head>
 <body>
@@ -270,7 +269,7 @@
         }
     }
 
-    function handleMarketDataTick(last_price) {
+    function handleMarketDataTick(bid, ask) {
         cybex.createLimitBuyOrder(assetPair, 0.01, last_price * (1 - spread)).then(response=>addOrder(response));
         cybex.createLimitSellOrder(assetPair, 0.01, last_price * (1 + spread)).then(response=>addOrder(response));
     }
@@ -285,7 +284,50 @@
             <div class="alert alert-dismissible alert-info">
                 注意！请保证账户有充足的余额来进行实践。
             </div>
+
+            <div class="title">
+                <span>如何加入大币种搬砖的队列？</span>
+                <h3>流动性转移</h3>
+            </div>
+
+
+            <p>
+
+            </p>
+
+            <p>
+                <pre><code>
+    async function handleMarketDataTick() {
+        var bestBid = json.bids[0];
+        var bestBidPx = Number(bestBid[0]);
+
+        var bestAsk = json.asks[0];
+        var bestAskPx = Number(bestAsk[0]);
+
+        // Skew the price for 50bps to ensure they won't be crossed
+        bestBidPx = bestBidPx - (bestBidPx * 50 / 10000);
+        bestAskPx = bestAskPx + (bestAskPx * 50 / 10000);
+
+        // Round to 2 decimal places to fulfill the min tick to 0.01
+        bestBidPx = Math.round(bestBidPx * 100) / 100;
+        bestAskPx = Math.round(bestAskPx * 100) / 100;
+
+        // createNewOrderPayload(true, bestBidPx, 0.01, 'ETH/USDT', handleNewOrderPayload);        // bid order
+        // createNewOrderPayload(false, bestAskPx, 0.01, 'ETH/USDT', handleNewOrderPayload);       // ask order
+        place(assetPair,"buy", bestBidPx,0.01);
+        place(assetPair,"sell", bestAskPx,0.01);
+
+    }
+        </code></pre>
+            </p>
+
+
+
+
         </div>
+
+
+
 
     </div>
 

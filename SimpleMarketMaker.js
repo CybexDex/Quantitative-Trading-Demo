@@ -7,38 +7,37 @@ const cybex = new Cybex();
 const assetPair = "ETH/USDT";
 
 let allOrders = [];
-const spread = 0.0005;
 
-function handleMarketDataTick(price) {
-    const bidPx = price * (1 - spread);
-    const askPx = price * (1 + spread);
+
+function handleMarketDataTick(bidPx, askPx) {
 
     allOrders.forEach(order => {
         cybex.cancelOrder(order).then(res => {
             console.log('Order Canceled   : ' + order);
         });
     })
-    place(assetPair, "buy", bidPx.toFixed(3), 0.01);
-    //console.log("buy", bidPx.toFixed(2));
-    place(assetPair, "sell", askPx.toFixed(3), 0.01);
-    //console.log("sell", askPx.toFixed(2));
-}
 
-function place(pair, side, px, qty) {
-    // async createOrder(assetPair, side, amount, price) {
-    cybex.createOrder(pair, side, qty, px).then(res => {
+    cybex.createOrder(assetPair, "buy", 0.01, bidPx).then(res => {
         if (res && res.Status === "Successful") {
-            console.log('Sending new order: ' + side + ' ' + pair + ' ' + qty + '@' + px + ' - txId: ' + res.transactionId);
+            console.log('Sending new order: ' + "buy"  + ' ' + 0.01 + '@' + bidPx + ' - txId: ' + res.transactionId);
+            allOrders.push(res.transactionId)
+        }
+    });
+
+    cybex.createOrder(assetPair, "sell", 0.01, askPx).then(res => {
+        if (res && res.Status === "Successful") {
+            console.log('Sending new order: ' + sell + ' ' + 0.01 + '@' + askPx + ' - txId: ' + res.transactionId);
             allOrders.push(res.transactionId)
         }
     });
 }
 
-function convert_pair(pair){
+
+function convert_pair(pair) {
 
     let result = "";
-    pair.split("/").forEach(asset=>{
-        let prefix = asset==="CYB"?"":"JADE_";
+    pair.split("/").forEach(asset => {
+        let prefix = asset === "CYB" ? "" : "JADE_";
         result = result + prefix + asset;
     });
 
@@ -48,9 +47,10 @@ function convert_pair(pair){
 // WebSocket client to connect to Binance API for OrderBook
 wsClient.on('connect', function (connection) {
     console.log("connected");
+    const spread = 0.0005;
     let last_price = 1;
-    const cmd  = JSON.stringify({"type": "subscribe", "topic": "LASTPRICE."+convert_pair(assetPair)});
 
+    const cmd = JSON.stringify({"type": "subscribe", "topic": "LASTPRICE." + convert_pair(assetPair)});
     connection.send(cmd);
 
     connection.on('message', function (message) {
@@ -59,9 +59,12 @@ wsClient.on('connect', function (connection) {
             const data = JSON.parse(message.utf8Data);
 
             if (data.px !== last_price) {
-                last_price = data.px;
-                handleMarketDataTick(last_price);
-            }else{
+                last_price = parseFloat(data.px);
+                const bidPx = last_price * (1 - spread);
+                const askPx = last_price * (1 + spread);
+
+                handleMarketDataTick(bidPx, askPx);
+            } else {
                 console.log("same price at" + data.px);
             }
         }
